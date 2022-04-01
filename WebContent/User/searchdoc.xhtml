@@ -1,0 +1,386 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:p="http://primefaces.org/ui"
+	xmlns:h="http://java.sun.com/jsf/html">
+
+<h:head>
+
+
+</h:head>
+<body>
+
+	<ui:composition template="template.xhtml">
+
+		<ui:define name="header">
+			<ui:include src="header.xhtml" />
+		</ui:define>
+
+		<ui:define name="menu">
+			<ui:include src="menu.xhtml" />
+		</ui:define>
+
+		<ui:define name="data">
+
+			<h:form id="search" style="margin-left:10%; margin-top:1% ">
+				<p:messages />
+				<p:panelGrid columns="4" cellpadding="4" style="width:90% ">
+
+
+					<f:facet name="header">Αναζήτηση Εγγράφου</f:facet>
+
+
+					<p:outputLabel for="advanced6" value="Είδος Εγγράφου" />
+					<p:selectOneMenu id="advanced6" scrollable="true"
+						converter="Convkind" scrollHeight="170" value="#{SearchBean.kind}"
+						style="  width: 90%;">
+						<f:selectItem itemValue="#{null}" itemLabel="Επίλογή όλων" />
+						<f:selectItems value="#{SearchBean.kindlist}" var="kind"
+							itemLabel="#{kind.kinddescription}" itemValue="#{kind}" />
+					</p:selectOneMenu>
+
+
+					<p:outputLabel for="advanced4" value="Διαβάθμιση" />
+					<p:selectOneMenu id="advanced4" scrollable="true"
+						converter="Convclass" scrollHeight="100"
+						value="#{SearchBean.classi}" var="t" style=" width: 90%;">
+						<f:selectItem itemValue="#{null}" itemLabel="Επίλογή όλων" />
+						<f:selectItems value="#{SearchBean.classlist}" var="class"
+							itemLabel="#{class.classificationdescription}"
+							itemValue="#{class}" />
+						<p:column>
+							<h:outputText value="#{t.classificationdescription}" />
+						</p:column>
+					</p:selectOneMenu>
+					
+					<p:outputLabel for="advanced5" value="Απεικόνιση" />
+					<p:selectOneMenu id="advanced5" scrollable="true"
+						converter="Convformat" scrollHeight="170"
+						value="#{SearchBean.format}" var="t" style=" width: 90%;">
+						<f:selectItem itemValue="#{null}" itemLabel="Επίλογή όλων" />
+						<f:selectItems value="#{SearchBean.formatlist}" var="format"
+							itemLabel="#{format.formatdescription}" itemValue="#{format}" />
+						<p:column>
+							<h:outputText value="#{t.formatdescription}" />
+						</p:column>
+					</p:selectOneMenu>
+
+
+					<p:outputLabel value="Τίτλος - Περιεχόμενα" />
+					
+					<p:inputText value="#{SearchBean.selectedsearch}" id="search"
+						style="width:98% " />
+						<p:outputLabel value=" " />
+						<p:outputLabel value=" " />
+						<p:outputLabel value=" " />
+					<p:commandButton value="Αναζήτηση" icon="fa fa-search"
+						action="#{SearchBean.searchDoc()}" update=":tableFrm" />
+				</p:panelGrid>
+			</h:form>
+
+
+			<h:form id="tableFrm">
+				<p:dataTable id="docs" var="doc" value="#{SearchBean.result}"
+					rows="4" scrollable="false" scrollHeight="23%" virtual="true"
+					paginator="true" widgetVar="docTable"
+					paginatorTemplate="{CurrentPageReport} {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown}"
+					currentPageReportTemplate="{startRecord}-{endRecord} of {totalRecords} records">
+
+					<p:column headerText="Τίτλος" style="width:27%"
+						filterBy="#{doc.title}" filterMatchMode="contains">
+						<h:outputText value="#{doc.title}" />
+					</p:column>
+
+					<p:column headerText="Διαβάθμιση" style="width:15%">
+						
+						<h:outputText
+							value="#{doc.documentClassification.classificationdescription}" />
+					</p:column>
+
+					<p:column style=" width:14%;text-align:center"
+						headerText="#{msg.action}">
+						<p:commandButton update="userfrm"
+							action="#{SearchBean.selectdoclist()}"
+							oncomplete="PF('userDlg').show()" value="Επεξεργασία">
+							<f:setPropertyActionListener value="#{doc}"
+								target="#{SearchBean.selectedDoc}" />
+						</p:commandButton>
+						<p:commandButton update="docDialog"
+							action="#{SearchBean.pdffilter()}"
+							oncomplete="PF('docDialog').show()" icon="fa fa-search">
+							<f:setPropertyActionListener value="#{doc}"
+								target="#{SearchBean.selectedDoc}" />
+						</p:commandButton>
+
+						<p:commandButton icon="fa fa-trash"
+							oncomplete="PF('deleteDlg').show()">
+							<f:setPropertyActionListener value="#{doc}"
+								target="#{SearchBean.selectedDoc}" />
+						</p:commandButton>
+					</p:column>
+				</p:dataTable>
+			</h:form>
+
+			<p:dialog id="deleteDlg" widgetVar="deleteDlg" modal="true"
+				header="ΈπιΒεβαίωση Διαγραφής Εγγράφου" resizable="false"
+				width="400px" appendTo="@(body)">
+				<h:form id="deletefrm">
+
+					<p:messages id="message" />
+					<p:panelGrid columns="4" styleClass="ui-noborder">
+						<p:commandButton value="Ναι" action="#{SearchBean.deleteDoc()}"
+							oncomplete="PF('deleteDlg').hide()" update=" :tableFrm" />
+						<p:commandButton value="Οχι" oncomplete="PF('deleteDlg').hide()" />
+					</p:panelGrid>
+				</h:form>
+			</p:dialog>
+
+			<p:dialog id="userDlg" widgetVar="userDlg" modal="true"
+				header="Επεξεργασία Εγγράφου" resizable="false" width="1250px"
+				appendTo="@(body)">
+				<h:form id="userfrm">
+
+					<p:panelGrid columns="6" styleClass="ui-noborder">
+
+						<p:outputLabel for="title" value="Τίτλος " />
+						<p:inputText id="title" style="width:90%"
+							value="#{SearchBean.selectedDoc.title}" maxlength="1024">
+						</p:inputText>
+
+						<p:outputLabel for="publisher" value="Εκδότης " />
+						<p:inputText id="publisher"
+							value="#{SearchBean.selectedDoc.publisher}" maxlength="1024"
+							style="width:90%">
+						</p:inputText>
+
+						<p:outputLabel for="calendar" value="Ημ/νια Έκδοσης " />
+						<p:calendar id="calendar" locale="de" navigator="true"
+							value="#{SearchBean.selectedDoc.publicationdate}"
+							pattern="dd/MM/yy" timeZone="Europe/Athens" style="width:90%" />
+
+						<p:outputLabel for="seires" value="Σειρές " />
+						<p:inputText id="seires" value="#{SearchBean.selectedDoc.series}"
+							maxlength="1024" style="width:90%">
+						</p:inputText>
+
+						<p:outputLabel for="fakelos" value="Φάκελος " />
+						<p:inputText id="fakelos" value="#{SearchBean.selectedDoc.folder}"
+							maxlength="1024" style="width:90%">
+						</p:inputText>
+
+						<p:outputLabel for="advanced6" value="Είδος Εγγράφου" />
+						<p:selectOneMenu id="advanced6" scrollable="true"
+							converter="Convkind" scrollHeight="170"
+							value="#{SearchBean.selectedDoc.documentKindt}"
+							style="  width: 90%;">
+							<f:selectItems value="#{SearchBean.kindlist}" var="kind"
+								itemLabel="#{kind.kinddescription}" itemValue="#{kind}" />
+						</p:selectOneMenu>
+
+						<p:outputLabel for="advanced5" value="Απεικόνιση" />
+						<p:selectOneMenu id="advanced5" scrollable="true"
+							converter="Convformat" scrollHeight="100"
+							value="#{SearchBean.selectedDoc.documentFormat}"
+							style="  width: 90%;">
+							<f:selectItems value="#{SearchBean.formatlist}" var="format"
+								itemLabel="#{format.formatdescription}" itemValue="#{format}" />
+
+						</p:selectOneMenu>
+
+						<p:outputLabel for="advanced4" value="Διαβάθμιση" />
+						<p:selectOneMenu id="advanced4" scrollable="true"
+							converter="Convclass" scrollHeight="100"
+							value="#{SearchBean.selectedDoc.documentClassification}"
+							style="  width: 88%;">
+							<f:selectItems value="#{SearchBean.classlist}" var="class"
+								itemLabel="#{class.classificationdescription}"
+								itemValue="#{class}" />
+						</p:selectOneMenu>
+
+						<p:outputLabel id="tpt" />
+						<p:outputLabel id="tpt2" />
+
+						<p:outputLabel for="advanced2" value="Γλώσσα" />
+						<p:selectManyMenu id="advanced2" scrollable="true"
+							converter="Conv" scrollHeight="100"
+							value="#{SearchBean.selectlanguage}" var="t2" showCheckbox="true"
+							style=" width: 105%;">
+							<f:selectItems value="#{SearchBean.languageslist}" var="language"
+								itemLabel="#{language.languagedescription}"
+								itemValue="#{language}" />
+							<p:column>
+								<h:outputText value="#{t2.languagedescription}" />
+							</p:column>
+						</p:selectManyMenu>
+
+						<p:outputLabel for="advanced" value="Θέμα" />
+						<p:selectManyMenu id="advanced" scrollable="true"
+							converter="Convsub" scrollHeight="100"
+							value="#{SearchBean.selectsubject}" var="t" showCheckbox="true"
+							style=" width: 100%;">
+							<f:selectItems value="#{SearchBean.subjectslist}" var="subject"
+								itemLabel="#{subject.subjectdescription}" itemValue="#{subject}" />
+							<p:column>
+								<h:outputText value="#{t.subjectdescription}" />
+							</p:column>
+						</p:selectManyMenu>
+
+
+						<p:outputLabel for="advanced7" value="Περίοδος" />
+						<p:selectManyMenu id="advanced7" scrollable="true"
+							showCheckbox="true" converter="Convperiod" scrollHeight="100"
+							value="#{SearchBean.selectperiod}" var="t" style=" width: 100%;">
+							<f:selectItems value="#{SearchBean.periodlist}" var="period"
+								itemLabel="#{period.perioddescription}" itemValue="#{period}" />
+							<p:column>
+								<h:outputText value="#{t.perioddescription}" />
+							</p:column>
+						</p:selectManyMenu>
+
+						<p:commandButton value="Καταχώρηση" icon="fa fa-floppy-o"
+							action="#{SearchBean.saveDoc()}"
+							oncomplete="PF('userDlg').hide()" update=":userfrm :tableFrm" />
+
+						<h:outputText id="tipota" />
+						<h:outputText id="tipota2" />
+						<h:outputText id="tipota3" />
+						<h:outputText id="tipota4" />
+						<p:commandButton value="Κλείσιμο"
+							oncomplete="PF('userDlg').hide()" />
+					</p:panelGrid>
+
+				</h:form>
+
+				<h:form enctype="multipart/form-data">
+					<p:fileUpload fileUploadListener="#{SearchBean.handleFileUpload}"
+						mode="advanced" dragDropSupport="false" update="messages"
+						sizeLimit="10000000000000" fileLimit="3"
+						allowTypes="/(\.|\/)(gif|jpe?g|PNG|pdf)$/" label="Επιλογή"
+						uploadLabel="Μεταφόρτωση" cancelLabel="Ακύρωση" />
+
+					<p:growl id="messages" showDetail="true" />
+				</h:form>
+			</p:dialog>
+
+			<p:dialog id="docDialog" widgetVar="docDialog" modal="true"
+				header="Επισκόπηση Εγγράφου" resizable="false" width="950px"
+				appendTo="@(body)">
+				<h:form id="eggrfrm">
+					<p:outputPanel id="docDetail" style="text-align:center;">
+						<p:panelGrid columns="4">
+
+							<h:outputText value="Κωδικός Εγγράφου" style="color: #0099cc" />
+							<h:outputText value="#{SearchBean.selectedDoc.id}" />
+
+							<h:outputText value="Τίτλος" style="color: #0099cc" />
+							<h:outputText value="#{SearchBean.selectedDoc.title}" />
+
+							<h:outputText value="Διαβάθμιση" style="color: #0099cc" />
+							<h:outputText
+								value="#{SearchBean.selectedDoc.documentClassification.classificationdescription}" />
+
+							<h:outputText value="Είδος Εγγράφου" style="color: #0099cc" />
+							<h:outputText
+								value="#{SearchBean.selectedDoc.documentKindt.kinddescription}" />
+
+							<h:outputText value="Απεικόνιση" style="color: #0099cc" />
+							<h:outputText
+								value="#{SearchBean.selectedDoc.documentFormat.formatdescription}" />
+
+							<h:outputText value="Φάκελος" style="color: #0099cc" />
+							<h:outputText value="#{SearchBean.selectedDoc.folder}" />
+
+							<h:outputText value="Ημ/νία Έκδοσης" style="color: #0099cc" />
+							<h:outputText value="#{SearchBean.selectedDoc.publicationdate}">
+								<f:convertDateTime pattern="dd/MM/yyyy" timeZone="Europe/Athens" />
+							</h:outputText>
+
+							<h:outputText value="Εκδότης" style="color: #0099cc" />
+							<h:outputText value="#{SearchBean.selectedDoc.publisher}" />
+
+							<h:outputText value="Ημ/νία Σκαναρίσματος" style="color: #0099cc" />
+							<h:outputText value="#{SearchBean.selectedDoc.scandate}">
+								<f:convertDateTime pattern="dd/MM/yyyy" timeZone="Europe/Athens" />
+							</h:outputText>
+
+							<h:outputText value="Σειρά" style="color: #0099cc" />
+							<h:outputText value="#{SearchBean.selectedDoc.series}" />
+
+
+							<h:outputText value="Γλώσσα" style="color: #0099cc" />
+							<p:dataList value="#{SearchBean.selectedDoc.documentLanguages}"
+								var="lang" type="definition">
+       					 #{lang.languagedescription}
+    					</p:dataList>
+
+
+							<h:outputText value="Περίοδος" style="color: #0099cc" />
+							<p:dataList value="#{SearchBean.selectedDoc.documentPeriods}"
+								var="per" type="definition">
+      					  #{per.perioddescription}" 
+   						 </p:dataList>
+
+
+							<h:outputText value="Θέμα" style="color: #0099cc" />
+							<p:dataList value="#{SearchBean.selectedDoc.documentSubjects}"
+								var="sub" type="definition">
+       					 #{sub.subjectdescription}
+    					</p:dataList>
+
+							<h:outputText id="tipota" />
+							<p:commandButton value="Κλείσιμο"
+								oncomplete="PF('docDialog').hide()" />
+
+						</p:panelGrid>
+					</p:outputPanel>
+				</h:form>
+
+				<h:form id="tablepdf">
+					<p:dataTable id="pdf" var="pdf" value="#{SearchBean.pdflist}">
+						<p:column headerText="Όνομα">
+							<h:outputText value="#{pdf.name}" />
+						</p:column>
+
+						<p:column>
+							<p:commandButton value="Λήψη Αρχείου" ajax="false"
+								update=":tableFrm"
+								actionListener="#{SearchBean.Provolipdf(pdf)}"
+								icon="fa fa-download">
+								<p:fileDownload value="#{SearchBean.streamedContent}" />
+							</p:commandButton>
+
+							<p:commandButton icon="fa fa-trash"
+								oncomplete="PF('deletepdf').show()">
+								<f:setPropertyActionListener value="#{pdf}"
+									target="#{SearchBean.selectedpdf}" />
+							</p:commandButton>
+
+						</p:column>
+					</p:dataTable>
+				</h:form>
+			</p:dialog>
+			<p:dialog id="deletepdf" widgetVar="deletepdf" modal="true"
+				header="ΈπιΒεβαίωση Διαγραφής Αρχείου" resizable="false"
+				width="400px" appendTo="@(body)">
+				<h:form id="pdf">
+
+					<p:messages id="message" />
+					<p:panelGrid columns="4" styleClass="ui-noborder">
+						<p:commandButton value="Ναι" action="#{SearchBean.deletepdf()}"
+							oncomplete="PF('deletepdf').hide()" update=":tablepdf" />
+						<p:commandButton value="Οχι" oncomplete="PF('deletepdf').hide()" />
+					</p:panelGrid>
+				</h:form>
+			</p:dialog>
+
+		</ui:define>
+
+		<ui:define name="footer">
+			<ui:include src="footer.xhtml" />
+		</ui:define>
+	</ui:composition>
+
+
+</body>
+</html>

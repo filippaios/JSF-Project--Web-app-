@@ -1,0 +1,51 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:p="http://primefaces.org/ui">
+
+<ui:composition>
+	<h:form class="menu" >
+		<p:growl id="messages" />
+
+		<p:menubar>	
+				
+			<p:menuitem   icon="fa fa-fw fa-home" url="/DisProject-0.0.1-SNAPSHOT/User/main.xhtml"  />
+			
+			<p:submenu label="&nbsp;Έγγραφα" icon="fa fa-file-text">
+			<p:menuitem icon="fa fa-file" value="&nbsp;Προβολή/Διαχείριση" url="/DisProject-0.0.1-SNAPSHOT/User/Documentsuser.xhtml"  />
+
+			<p:menuitem   icon="fa fa-pencil-square-o" value="&nbsp;Καταχώρηση" url="/DisProject-0.0.1-SNAPSHOT/User/insertdoc.xhtml" />
+			
+			<p:menuitem   icon="fa fa-search" value="&nbsp;Αναζήτηση" url="/DisProject-0.0.1-SNAPSHOT/User/searchdoc.xhtml" />
+			</p:submenu>
+			
+			<p:submenu label="&nbsp;Στατιστικά" icon="fa fa-area-chart">
+
+				<p:menuitem url="/DisProject-0.0.1-SNAPSHOT/User/Chart.xhtml"
+					value=" &nbsp;Είδος Εγγράφου " icon="fa fa-bar-chart"  />
+					
+					<p:menuitem url="/DisProject-0.0.1-SNAPSHOT/User/chartsClassification.xhtml"
+					value=" &nbsp;Διαβάθμιση Εγγράφου " icon="fa fa-bar-chart" style="width:94%" />
+					
+					<p:menuitem url="/DisProject-0.0.1-SNAPSHOT/User/chartsformat.xhtml"
+					value=" &#160;Απεικόνιση Εγγράφου " icon="fa fa-bar-chart" style="width:94%" />
+
+					<p:menuitem url="/DisProject-0.0.1-SNAPSHOT/User/chartssearch.xhtml"
+					value=" &#160;Αναζήτηση Εγγράφου " icon="fa fa-bar-chart" style="width:94%" />
+
+			</p:submenu>
+			
+			<p:menuitem icon="fa fa-lightbulb-o" value="&nbsp;Οδηγίες" url="/DisProject-0.0.1-SNAPSHOT/User/odhgies.xhtml" />
+			
+ 			<p:menuitem  value=" Χρήστης: #{loginBean.username}" style="position: absolute; right: 12%;" url="/DisProject-0.0.1-SNAPSHOT/User/edituser.xhtml"/>
+
+			<p:menuitem   icon="fa fa-sign-out" style="position: absolute; right: 4%;"  value="&nbsp;Έξοδος" action="#{loginBean.logout()}"/>
+			
+			
+		</p:menubar>
+
+	</h:form>
+</ui:composition>
+</html>

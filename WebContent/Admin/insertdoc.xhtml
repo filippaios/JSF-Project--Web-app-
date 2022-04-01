@@ -1,0 +1,157 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:p="http://primefaces.org/ui"
+	xmlns:h="http://java.sun.com/jsf/html">
+
+<h:head>
+</h:head>
+<body>
+	<ui:composition template="template.xhtml">
+
+		<ui:define name="header">
+			<ui:include src="header.xhtml" />
+		</ui:define>
+
+		<ui:define name="menu">
+			<ui:include src="menu.xhtml" />
+		</ui:define>
+
+		<ui:define name="data">
+
+			<h:form id="add">
+				<p:messages />
+				<p:panelGrid columns="6" cellpadding="4">
+					<f:facet name="header">Καταχώρηση Εγγράφου</f:facet>
+
+					<p:outputLabel value="Τίτλος" />
+					<p:inputText value="#{Insertdoc.title}" style="width:92%;" />
+
+					<p:outputLabel value="Εκδότης" />
+					<p:inputText value="#{Insertdoc.ekdoths}" />
+
+					<p:outputLabel for="calendar" value="Ημ/νια Έκδοσης " />
+					<p:calendar id="calendar" value="#{Insertdoc.hmnia_ekdoshs}"
+						locale="de" navigator="true" pattern="yyyy-MMM-dd" timeZone="Europe/Athens" />
+
+					<p:outputLabel value="Σειρές" />
+					<p:inputText value="#{Insertdoc.seira}" style="width:92%;" />
+
+					<p:outputLabel value="Φάκελος" />
+					<p:inputText value="#{Insertdoc.fakelos}" />
+
+
+
+					<p:outputLabel for="advanced6" value="Είδος Εγγράφου" />
+					<p:selectOneMenu id="advanced6" scrollable="true"
+						converter="Convkind" scrollHeight="170" value="#{Insertdoc.kind}"
+						var="t" style="width:83%;">
+						<f:selectItems value="#{Insertdoc.kindlist}" var="kind"
+							itemLabel="#{kind.kinddescription}" itemValue="#{kind}" />
+						<p:column>
+							<h:outputText value="#{t.kinddescription}" />
+						</p:column>
+					</p:selectOneMenu>
+
+					<p:outputLabel for="advanced5" value="Απεικόνιση" />
+					<p:selectOneMenu id="advanced5" scrollable="true"
+						converter="Convformat" scrollHeight="100"
+						value="#{Insertdoc.format}" var="t" style="width:90%;">
+						<f:selectItems value="#{Insertdoc.formatlist}" var="format"
+							itemLabel="#{format.formatdescription}" itemValue="#{format}" />
+						<p:column>
+							<h:outputText value="#{t.formatdescription}" />
+						</p:column>
+					</p:selectOneMenu>
+
+					<p:outputLabel for="advanced4" value="Διαβάθμιση" />
+					<p:selectOneMenu id="advanced4" scrollable="true"
+						converter="Convclass" scrollHeight="100"
+						value="#{Insertdoc.classi}" var="t" style="  width: 92%;">
+						<f:selectItems value="#{Insertdoc.classlist}" var="class"
+							itemLabel="#{class.classificationdescription}"
+							itemValue="#{class}" />
+						<p:column>
+							<h:outputText value="#{t.classificationdescription}" />
+						</p:column>
+					</p:selectOneMenu>
+
+
+					<p:outputLabel id="tpt" />
+					<p:outputLabel id="tpt2" />
+
+
+					<p:outputLabel for="advanced" value="Θέμα" />
+					<p:selectManyMenu id="advanced" scrollable="true"
+						converter="Convsub" scrollHeight="130"
+						value="#{Insertdoc.subject}" var="t" showCheckbox="true"
+						style="width:100%;">
+						<f:selectItems value="#{Insertdoc.subjectslist}" var="subject"
+							itemLabel="#{subject.subjectdescription}" itemValue="#{subject}" />
+						<p:column>
+							<h:outputText value="#{t.subjectdescription}" />
+						</p:column>
+					</p:selectManyMenu>
+
+
+					<p:outputLabel for="advanced2" value="Γλώσσα" />
+					<p:selectManyMenu id="advanced2" scrollable="true" converter="Conv"
+						scrollHeight="130" value="#{Insertdoc.language}" var="t2"
+						showCheckbox="true" style=" width: 100%;">
+						<f:selectItems value="#{Insertdoc.languageslist}" var="language"
+							itemLabel="#{language.languagedescription}"
+							itemValue="#{language}" />
+						<p:column>
+							<h:outputText value="#{t2.languagedescription}" />
+						</p:column>
+					</p:selectManyMenu>
+					<p:outputLabel for="advanced7" value="Περίοδος" />
+					<p:selectManyMenu id="advanced7" scrollable="true"
+						showCheckbox="true" converter="Convperiod" scrollHeight="130"
+						value="#{Insertdoc.period}" var="t" style="width: 100%;">
+						<f:selectItems value="#{Insertdoc.periodlist}" var="period"
+							itemLabel="#{period.perioddescription}" itemValue="#{period}" />
+						<p:column>
+							<h:outputText value="#{t.perioddescription}" />
+						</p:column>
+					</p:selectManyMenu>
+
+					<p:commandButton value="Καταχώρηση" update="add"
+						icon="fa fa-floppy-o" actionListener="#{Insertdoc.greatDoc()}">
+					</p:commandButton>
+
+
+				</p:panelGrid>
+			</h:form>
+						<h:form enctype="multipart/form-data">
+				<p:fileUpload fileUploadListener="#{Insertdoc.handleFileUpload}"
+					mode="advanced" dragDropSupport="false" update="messages"
+					sizeLimit="10000000000000" fileLimit="3"
+					allowTypes="/(\.|\/)(gif|jpe?g|png|pdf)$/" label="Επιλογή" uploadLabel="Μεταφόρτωση" cancelLabel="Ακύρωση" />
+				<p:growl id="messages" showDetail="true" />
+			</h:form>
+			
+
+
+		</ui:define>
+
+
+
+		<ui:define name="footer">
+			<ui:include src="footer.xhtml" />
+		</ui:define>
+	</ui:composition>
+
+
+
+
+
+
+
+
+
+
+
+</body>
+</html>

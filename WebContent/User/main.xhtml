@@ -1,0 +1,48 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:p="http://primefaces.org/ui">
+<h:head>
+	<title></title>
+</h:head>
+<h:body>
+
+
+	<ui:composition template="template.xhtml">
+
+		<ui:define name="header">
+			<ui:include src="header.xhtml" />
+		</ui:define>
+
+		<ui:define name="menu">
+			<ui:include src="menu.xhtml" />
+		</ui:define>
+
+		<ui:define name="data">
+
+			<div class="divmain">
+				<h:graphicImage value="/images/dis.jpg"
+					style="height: 100%; width: 100%;">
+				</h:graphicImage>
+			</div>
+
+			<div class="label">Εφαρμογή Διαχείρισης Τεκμηρίων</div>
+
+			<div class="textmain">H Εφαρμογή Διαχείρισης Τεκμηρίων παρέχει
+				ελεύθερη πρόσβαση σε τεκμηριωμένο αρχειακό υλικό προς κάθε
+				ενδιαφερόμενο.Δια της Εφαρμογής Διαχείρισης Τεκμηρίων ο χρήστης έχει
+				την δυνατότητα να κάνει αναζήτηση στο ψηφιοποιημένο αρχείο της
+				Διεύθυνσης Ιστορίας Στρατού.</div>
+		</ui:define>
+
+
+
+
+		<ui:define name="footer">
+			<ui:include src="footer.xhtml" />
+		</ui:define>
+	</ui:composition>
+</h:body>
+</html>

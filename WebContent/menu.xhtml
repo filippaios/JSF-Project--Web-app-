@@ -1,0 +1,32 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:p="http://primefaces.org/ui">
+
+<ui:composition>
+
+	<h:form class="menu" >
+		<p:growl  id="messages" />
+
+		<p:menubar>	
+				
+			<p:menuitem  icon="fa fa-fw fa-home" url="/DisProject-0.0.1-SNAPSHOT/main.xhtml"  />
+			
+			<p:menuitem icon="fa fa-file" value="&nbsp;Προβολή Εγγράφων" url="/DisProject-0.0.1-SNAPSHOT/Documents.xhtml" />
+
+			<p:menuitem icon="fa fa-search" value="&nbsp;Αναζήτηση Εγγράφων" url="/DisProject-0.0.1-SNAPSHOT/searchdoc.xhtml" />
+			
+			<p:menuitem icon="fa fa-lightbulb-o" value="&nbsp;Οδηγίες" url="/DisProject-0.0.1-SNAPSHOT/odhgies.xhtml" />
+			
+			<p:menuitem    style="position: absolute; right: 4%;"  value="&nbsp;Σύνδεση" url="/DisProject-0.0.1-SNAPSHOT/Login.xhtml" icon="fa fa-sign-in"/>
+			
+			
+		</p:menubar>
+
+
+	</h:form>
+
+</ui:composition>
+</html>

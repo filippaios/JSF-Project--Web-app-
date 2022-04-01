@@ -1,0 +1,141 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:p="http://primefaces.org/ui">
+
+<h:head>
+	<style>
+</style>
+</h:head>
+<body>
+
+
+	<ui:composition template="template.xhtml">
+
+		<ui:define name="header">
+			<ui:include src="header.xhtml" />
+		</ui:define>
+
+
+
+		<ui:define name="menu">
+			<ui:include src="menu.xhtml" />
+		</ui:define>
+
+
+		<ui:define name="data">
+			<h:form id="tableFrm">
+				<p:dataTable var="user" value="#{dataBean.userList}" rows="7"
+					paginator="true"
+					paginatorTemplate="{CurrentPageReport} {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown}"
+					currentPageReportTemplate="{startRecord}-{endRecord} of {totalRecords} records">
+					<p:column headerText="Ταυτότητα Χρήστη" style="width:13%">
+						<h:outputText value="#{user.idusers}" />
+					</p:column>
+
+					<p:column headerText="Όνομα" style="width:15%">
+						<h:outputText value="#{user.name}" />
+					</p:column>
+
+					<p:column headerText="Επίθετο" style="width:15%">
+						<h:outputText value="#{user.lname}" />
+					</p:column>
+
+					<p:column headerText="Διευθ. Ηλ. Ταχυδρομίου" style="width:20%">
+						<h:outputText value="#{user.email}" />
+					</p:column>
+
+					<p:column headerText="Όνομα Χρήστη" style="width:15%">
+						<h:outputText value="#{user.username}" />
+					</p:column>
+
+					<p:column headerText="Διαβάθμιση" style="width:10%">
+						<h:outputText value="#{user.diav(user.diavatmisiUser)}" />
+					</p:column>
+
+					<p:column style=" width:22%; text-align:center"
+						headerText="#{msg.action}">
+						<p:commandButton update="userfrm"
+							oncomplete="PF('userDlg').show()" value="Αλλαγή Διαβάθμσης">
+							<f:setPropertyActionListener value="#{user}"
+								target="#{dataBean.selectedUser}" />
+						</p:commandButton>
+
+						<p:commandButton style="margin-Top: 5%" icon="fa fa-trash"
+							oncomplete="PF('deleteDlg').show()">
+							<f:setPropertyActionListener value="#{user}"
+								target="#{dataBean.selectedUser}" />
+						</p:commandButton>
+					</p:column>
+				</p:dataTable>
+				<p:messages id="messages" showDetail="true" closable="true">
+					<p:autoUpdate />
+				</p:messages>
+			</h:form>
+
+			<p:dialog id="deleteDlg" widgetVar="deleteDlg" modal="true"
+				header="ΈπιΒεβαίωση Διαγραφής Χρήστη" resizable="false"
+				width="330px" appendTo="@(body)">
+				<h:form id="deletefrm">
+
+					<p:messages id="message" />
+					<p:panelGrid columns="4" styleClass="ui-noborder">
+						<p:commandButton value="Ναι" action="#{dataBean.deleteUser()}"
+							oncomplete="PF('deleteDlg').hide()" update=" :tableFrm" />
+						<p:commandButton value="Οχι" oncomplete="PF('deleteDlg').hide()" />
+					</p:panelGrid>
+				</h:form>
+			</p:dialog>
+
+
+
+
+			<p:dialog id="userDlg" widgetVar="userDlg" modal="true"
+				header="Αλλαγή Διαβάθμισης" resizable="false" width="950px"
+				appendTo="@(body)">
+				<h:form id="userfrm">
+					<p:panelGrid columns="1">
+						<p:messages id="message" />
+						<p:panelGrid columns="4" styleClass="ui-noborder">
+
+							<p:outputLabel for="name" value="Όνομα " />
+							<p:inputText id="name" style="width:200px"
+								value="#{dataBean.selectedUser.name}" maxlength="1024"
+								readonly="true">
+							</p:inputText>
+
+							<p:outputLabel for="lname" value="Επίθετο " />
+							<p:inputText id="lname" style="width:200px"
+								value="#{dataBean.selectedUser.lname}" maxlength="1024"
+								readonly="true">
+							</p:inputText>
+
+
+							<h:outputText value="Διαβάθμιση Χρήστη" />
+							<p:selectOneButton
+								value="#{dataBean.selectedUser.diavatmisiUser}">
+								<f:selectItem itemLabel="Αναμένει Έγκριση" itemValue="0" />
+								<f:selectItem itemLabel="Διαχειριστής" itemValue="1" />
+								<f:selectItem itemLabel="Απλός Χρήστης" itemValue="2" />
+							</p:selectOneButton>
+
+						</p:panelGrid>
+						<p:commandButton value="Καταχώρηση" icon="fa fa-floppy-o"
+							actionListener="#{dataBean.saveUser()}"
+							oncomplete="PF('userDlg').hide()" update=":userfrm :tableFrm"/>
+
+					</p:panelGrid>
+				</h:form>
+				
+			</p:dialog>
+
+
+		</ui:define>
+		<ui:define name="footer">
+			<ui:include src="footer.xhtml" />
+		</ui:define>
+	</ui:composition>
+</body>
+</html>

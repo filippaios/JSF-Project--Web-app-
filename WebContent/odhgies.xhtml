@@ -1,0 +1,95 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:p="http://primefaces.org/ui"
+	xmlns:h="http://java.sun.com/jsf/html">
+
+<h:head>
+	<style>
+</style>
+
+</h:head>
+<body>
+	<ui:composition template="template.xhtml">
+
+		<ui:define name="header">
+			<ui:include src="header.xhtml" />
+		</ui:define>
+
+		<ui:define name="menu">
+			<ui:include src="menu.xhtml" />
+		</ui:define>
+
+		<ui:define name="data">
+
+			<div class="odhgies">
+
+				<h3>Οδηγείες Εφαρμογής Διαχείρισης Τεκμηρίων</h3>
+
+				<div style="text-align: left">
+
+					<ol>
+
+						<li>Κάνοντας κλικ στο κουμπί <i class="fa fa-fw fa-home"
+							aria-hidden="true"></i> ο/η επισκέπτης επιστρέφει στην αρχική
+							σελίδα της εφαρμογής από όπου και αν βρίσκεται.
+						</li>
+
+						<br></br>
+
+						<li>Μέσω της επιλογής &#160;<i class="fa fa-file"
+							aria-hidden="true"></i> "Προβολή Εγγράφων" ο/η
+							επισκέπτης έχει δυνατότητα να: προβάλει το αρχειακό υλικό της
+							Διεύθυνσης Ιστορίας Στρατού. Να φιλτράρει τα έγγραφα που του/της
+							δίνονται προς εμφάνιση με βάση την Απεικόνιση ή την
+							Εμπιστευτικότητα. Να ταξινομήσει είτε με Αύξουσα σειρά είτε με
+							Φθίνουσα τα έγγραφα ανάλογα με Ημερομηνία Εκδοσης. <br></br>
+							Επιλέγοντας το <i class="fa fa-search" aria-hidden="true"></i>
+							που βρίσκεται στα δεξιά του πίνακα υπάρχει η δυνατότητα να γίνει
+							προβολή λεπτομερειών του εκάστοτε εγγράφου. Καθώς να γίνει και
+							"Download" αυτού.
+						</li>
+
+						<br></br>
+
+						<li>Μέσω της επιλογής <i class="fa fa-search"
+							aria-hidden="true"></i> "Αναζήτηση Εγγράφου" ο/η επισκέπτης έχει την
+							δυνατότητα να αναζητήσει, με βάση τον τίτλο, τον κωδικό και το
+							περιεχόμενο, τα έγγραφα που επιθυμεί.
+						</li>
+
+						<br></br>
+
+						<li>Μέσω της επιλογής <i class="fa fa-sign-in"
+							aria-hidden="true"></i> "Σύνδεση" ο/η επισκέπτης έχει την
+							δυνατότητα να συνδεθεί μέσω του μοναδικού προσωπικού συνδυασμού
+							παραμέτρων (Όνομα Χρήστη και Κωδικό Πρόσβασης), στο περιβάλλον της εφαρμογής
+							που του/της δίνονται περισσότερες δυνατότητες. Αν δεν είναι
+							εγγεγραμμένος/η υπάρχει η δυνατότητα να κάνει <i
+							class="fa fa-pencil-square-o" aria-hidden="true"></i> "Αίτηση
+							Εγγραφής". Μετά την αίτηση εγγραφής θα ενημερωθεί με γραπτό
+							e-mail από τον/την διαχειριστή της εφαρμογής για την πορεία της
+							αίτησής του.
+						</li>
+
+						<br></br>
+
+
+
+					</ol>
+				</div>
+
+			</div>
+
+		</ui:define>
+
+		<ui:define name="footer">
+			<ui:include src="footer.xhtml" />
+		</ui:define>
+	</ui:composition>
+
+
+
+</body>
+</html>

@@ -1,0 +1,76 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:p="http://primefaces.org/ui">
+
+<h:head>
+	<style>
+body {
+	background-image: url('backgroud.jpg');
+	background-repeat: no-repeat;
+	background-size: 100%;
+}
+
+#formdiv {
+	margin-top: 3%;
+	width: 100%;
+}
+</style>
+</h:head>
+<body>
+	<div id="formdiv" align="center">
+		<h:form style="opacity:0.7;">
+
+			<p:panel style="width:30%;">
+				<h2 style="margin-left: 2%">Αίτηση Εγγραφής</h2>
+				<p:messages id="msg" />
+				<p:panelGrid columns="2">
+
+					<p:outputLabel value="Ονομα" />
+					<p:inputText value="#{registerBean.name}" required="true"
+						id="firstname" label="Firstname" />
+
+
+					<p:outputLabel value="Επωνυμο" />
+					<p:inputText value="#{registerBean.lname}" required="true"
+						id="lastname" label="Lastname" />
+
+					<p:outputLabel value="Email" />
+					<p:inputText value="#{registerBean.email}" required="true"
+						id="email" label="email" />
+
+
+					<p:outputLabel value="Όνομα Χρήστη" />
+					<p:inputText value="#{registerBean.username}" required="true"
+						label="Username" />
+
+					<p:outputLabel value="Κωδικός" />
+					<p:inputText type="password" value="#{registerBean.password}"
+						required="true" id="Input1" label="Password" />
+
+					<p:outputLabel value="Επιβεβαίωση Κωδικού" />
+					<p:inputText type="password"
+						value="#{registerBean.passwordconfirm}" required="true"
+						id="Input2" label="Password Confirm" />
+
+				</p:panelGrid>
+				
+				<br />
+				<p:commandButton id="confirm" style="margin-left: 70%"
+					value="Άποστολή Αίτησης" icon="fa fa-floppy-o" update="msg"
+					action="#{registerBean.RegBean()}">
+				</p:commandButton>
+			</p:panel>
+		</h:form>
+	</div>
+	<p:linkButton id="back" style="margin-left: 35%; margin-top: 2%;opacity:0.7;"
+		icon="fa fa-reply" value="Επιστροφή στην σελίδα Σύνδεσης"
+		immediate="true" outcome="Login" >
+	</p:linkButton>
+
+	<ui:insert name="footer" />
+
+</body>
+</html>

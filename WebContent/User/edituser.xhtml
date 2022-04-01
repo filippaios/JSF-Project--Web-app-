@@ -1,0 +1,151 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:p="http://primefaces.org/ui">
+
+<h:head>
+	<style>
+</style>
+</h:head>
+<body>
+
+
+	<ui:composition template="template.xhtml">
+
+		<ui:define name="header">
+			<ui:include src="header.xhtml" />
+		</ui:define>
+
+
+
+		<ui:define name="menu">
+			<ui:include src="menu.xhtml" />
+		</ui:define>
+
+
+		<ui:define name="data">
+			<h:form id="tableFrm">
+				<p:dataTable var="user" value="#{loginBean.user}" rows="1"
+					paginator="true"
+					paginatorTemplate="{CurrentPageReport}"
+					currentPageReportTemplate="Στοιχεία Χρήστη">
+					<p:column headerText="Ταυτότητα Χρήστη" style="width:13%">
+						<h:outputText value="#{user.idusers}" />
+					</p:column>
+
+					<p:column headerText="Όνομα" style="width:15%">
+						<h:outputText value="#{user.name}" />
+					</p:column>
+
+					<p:column headerText="Επίθετο" style="width:15%">
+						<h:outputText value="#{user.lname}" />
+					</p:column>
+
+					<p:column headerText="Διευθ. Ηλ. Ταχυδρομίου" style="width:20%">
+						<h:outputText value="#{user.email}" />
+					</p:column>
+
+					<p:column headerText="Όνομα Χρήστη" style="width:15%">
+						<h:outputText value="#{user.username}" />
+					</p:column>
+
+					<p:column headerText="Διαβάθμιση" style="width:10%">
+						<h:outputText value="#{user.diav(user.diavatmisiUser)}" />
+					</p:column>
+
+					<p:column style=" width:22%; text-align:center"
+						headerText="#{msg.action}">
+						<p:commandButton update="userfrm"
+							oncomplete="PF('userDlg').show()" value="Επεξεργασία Στοιχείων" icon="fa fa-id-badge">
+							<f:setPropertyActionListener value="#{user}"
+								target="#{dataBean.selectedUser}" />
+						</p:commandButton>
+						<p:commandButton update="userfrm"
+							oncomplete="PF('passDlg').show()" value="Αλλαγή Κωδικού" icon="fa fa-key">
+							<f:setPropertyActionListener value="#{user}"
+								target="#{dataBean.selectedUser}" />
+						</p:commandButton>
+
+					</p:column>
+				</p:dataTable>
+				<p:messages id="messages" showDetail="true" closable="true">
+					<p:autoUpdate />
+				</p:messages>
+			</h:form>
+
+	
+			<p:dialog id="userDlg" widgetVar="userDlg" modal="true"
+				header="Επεξεργασία Στοιχείων Χρήστη" resizable="false" width="950px"
+				appendTo="@(body)">
+				<h:form id="userfrm">
+					<p:panelGrid columns="1">
+						<p:messages id="message" />
+						<p:panelGrid columns="4" styleClass="ui-noborder">
+
+							<p:outputLabel for="name" value="Όνομα " />
+							<p:inputText id="name" style="width:200px"
+								value="#{dataBean.selectedUser.name}" maxlength="1024">
+							</p:inputText>
+
+							<p:outputLabel for="lname" value="Επίθετο " />
+							<p:inputText id="lname" style="width:200px"
+								value="#{dataBean.selectedUser.lname}" maxlength="1024">
+							</p:inputText>
+							
+							<p:outputLabel for="uname" value="Όνομα Χρήστη " />
+							<p:inputText id="uname" style="width:200px"
+								value="#{dataBean.selectedUser.username}" maxlength="1024">
+							</p:inputText>
+							
+														
+							<p:outputLabel for="mail" value="Διευθ. Ηλ. Ταχυδρομίου " />
+							<p:inputText id="mail" style="width:200px"
+								value="#{dataBean.selectedUser.email}" maxlength="1024">
+							</p:inputText>
+							
+						<p:commandButton value="Καταχώρηση" icon="fa fa-floppy-o"
+							actionListener="#{dataBean.saveUser()}"
+							oncomplete="PF('userDlg').hide()" update=":userfrm :tableFrm"/>
+
+					</p:panelGrid>
+						</p:panelGrid>
+
+				</h:form>
+				
+			</p:dialog>
+			
+						<p:dialog id="passDlg" widgetVar="passDlg" modal="true"
+				header="Αλλαγή Κωδικού" resizable="false" width="500px"
+				appendTo="@(body)">
+				<h:form id="passForm">
+					<p:messages />
+					<p:panelGrid columns="2">
+					
+					<p:outputLabel for="pwd" value="Παλιός Κωδικός" />
+			<p:password id="pwd" value="#{changeBn.password}" required="true"
+				placeholder="Παλιός Κωδικός" />
+
+						<p:outputLabel for="newpwd" value="Νέος Κωδικός" />
+						<p:password id="newpwd" value="#{changeBn.password1}"
+							required="true" placeholder="Νέος Κωδικός" />
+						<p:outputLabel for="newpwd1" value="Επαλήθευση Κωδικού" />
+						<p:password id="newpwd1" value="#{changeBn.password2}"
+							required="true" placeholder="Επαλήθευση" />
+
+
+						<p:commandButton value="Επιβεβαίωση" update="passForm"
+							action="#{changeBn.ChangeMe}" ajax="false" />
+
+					</p:panelGrid>
+				</h:form>
+			</p:dialog>
+
+		</ui:define>
+		<ui:define name="footer">
+			<ui:include src="footer.xhtml" />
+		</ui:define>
+	</ui:composition>
+</body>
+</html>

@@ -1,0 +1,93 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:p="http://primefaces.org/ui">
+
+<h:head>
+	<style>
+body {
+	background-image: url('backgroud.jpg');
+	background-repeat: no-repeat;
+	background-size: 100%;
+}
+
+#formdiv {
+	margin-top: 10%;
+	width: 100%;
+}
+</style>
+</h:head>
+<body>
+	<div id="formdiv" align="center">
+		<h:form style="opacity:0.7;">
+
+			<p:panel style="width:30%;">
+				<h2 style="margin-left: 2%">Είσοδος</h2>
+				<p:messages id="msg" />
+				<p:panelGrid columns="2" style="width:100%;">
+
+					<p:outputLabel value="Όνομα Χρήστη" />
+					<p:inputText value="#{loginBean.username}" label="Username"
+						required="true" id="Username" style="width:95%;" />
+
+
+					<p:outputLabel value="Κώδικος" />
+					<p:inputText id="pass" type="#{loginBean.showpass()}"
+						value="#{loginBean.password}" label="Password" required="true"
+						style="width:95%;" />
+
+				</p:panelGrid>
+				<br />
+				<h:panelGrid columns="1" style="margin-bottom:10px;float:left"
+					cellpadding="5">
+
+					<p:selectBooleanCheckbox id="check" value="#{selectview.value1}"
+						itemLabel="Εμφάνιση Κωδικού">
+						<p:ajax update="pass" process="check pass"
+							listener="#{loginBean.change()}" />
+					</p:selectBooleanCheckbox>
+				</h:panelGrid>
+
+
+				<h:panelGrid columns="1" style="margin-bottom:10px" cellpadding="5">
+					<p:commandButton style="margin-left: 45%" value="Είσοδος"
+						ajax="false" icon="fa fa-sign-in" update="msg"
+						action="#{loginBean.login()}" />
+				</h:panelGrid>
+
+
+				<br />
+				<h:panelGrid columns="1" style="margin-bottom:10px; float:left"
+					cellpadding="10">
+					<p:linkButton icon="fa fa-question-circle-o"
+						value="Ξεχάσατε τον κωδικό;" immediate="true"
+						outcome="ForgotPass.">
+					</p:linkButton>
+				</h:panelGrid>
+
+				<h:panelGrid columns="1" style="margin-bottom:10px" cellpadding="5">
+					<p:linkButton value="Αίτηση Εγγραφής" icon="fa fa-pencil-square-o"
+						immediate="true" outcome="Register">
+					</p:linkButton>
+
+				</h:panelGrid>
+
+			</p:panel>
+		</h:form>
+	</div>
+
+
+	<p:linkButton id="back"
+		style="margin-left: 35%; margin-top: 2%;opacity:0.7;"
+		icon="fa fa-reply" value="Επιστροφή στην Κεντρική Σελίδα "
+		immediate="true" outcome="main.">
+	</p:linkButton>
+
+
+
+	<ui:insert name="footer" />
+
+</body>
+</html>

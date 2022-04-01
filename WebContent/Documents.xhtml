@@ -1,0 +1,190 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:p="http://primefaces.org/ui"
+	xmlns:h="http://java.sun.com/jsf/html">
+
+<h:head>
+</h:head>
+<body>
+	<ui:composition template="template.xhtml">
+
+
+
+		<ui:define name="header">
+			<ui:include src="header.xhtml" />
+		</ui:define>
+
+		<ui:define name="menu">
+			<ui:include src="menu.xhtml" />
+		</ui:define>
+
+		<ui:define name="data">
+
+			<h:form id="tableFrm">
+				<p:dataTable id="docs" var="doc" value="#{DocumentBean.docList}"
+					rows="3" scrollable="false" scrollHeight="23%" virtual="true"
+					paginator="true" widgetVar="docTable"
+					paginatorTemplate="{CurrentPageReport} {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown}"
+					currentPageReportTemplate="{startRecord}-{endRecord} of {totalRecords} records">
+
+
+
+					<p:column headerText="Τίτλος" style="width:27%"
+						filterBy="#{doc.title}" filterMatchMode="contains">
+						<h:outputText value="#{doc.title}" />
+					</p:column>
+
+					<p:column headerText="Εκδότης" style="width:18%"
+						filterBy="#{doc.publisher}" filterMatchMode="contains">
+						<h:outputText value="#{doc.publisher}" />
+					</p:column>
+
+					<p:column headerText="Ημ/νια Έκδοσης" style="width:10%"
+						sortBy="#{doc.publicationdate}">
+						<h:outputText value="#{doc.publicationdate}">
+							<f:convertDateTime pattern="dd/MM/yyyy" timeZone="Europe/Athens" />
+						</h:outputText>
+					</p:column>
+
+					<p:column headerText="Είδος" style="width:9%">
+						<h:outputText value="#{doc.documentKindt.kinddescription}" />
+					</p:column>
+
+
+					<p:column headerText="Απεικόνιση" style="width:15%">
+						<h:outputText value="#{doc.documentFormat.formatdescription}" />
+					</p:column>
+
+
+					<p:column headerText="Διαβάθμιση" style="width:15%">
+						<h:outputText
+							value="#{doc.documentClassification.classificationdescription}" />
+					</p:column>
+
+					<p:column style=" width:8%;text-align:center"
+						headerText="#{msg.action}">
+						
+						<p:commandButton update="docDialog"
+							action="#{DocumentBean.pdffilter()}"
+							oncomplete="PF('docDialog').show()" icon="fa fa-search">
+							<f:setPropertyActionListener value="#{doc}"
+								target="#{DocumentBean.selectedDoc}" />
+						</p:commandButton>
+
+						
+					</p:column>
+				</p:dataTable>
+			</h:form>
+
+			
+
+			
+
+			<p:dialog id="docDialog" widgetVar="docDialog" modal="true"
+				header="Επισκόπηση Εγγράφου" resizable="false" width="950px"
+				appendTo="@(body)">
+
+
+				<p:outputPanel id="docDetail" style="text-align:center;">
+					<p:panelGrid columns="4">
+
+						<h:outputText value="Κωδικός Εγγράφου" style="color: #0099cc" />
+						<h:outputText value="#{DocumentBean.selectedDoc.id}" />
+
+						<h:outputText value="Τίτλος" style="color: #0099cc" />
+						<h:outputText value="#{DocumentBean.selectedDoc.title}" />
+
+						<h:outputText value="Διαβάθμιση" style="color: #0099cc" />
+						<h:outputText
+							value="#{DocumentBean.selectedDoc.documentClassification.classificationdescription}" />
+
+						<h:outputText value="Είδος Εγγράφου" style="color: #0099cc" />
+						<h:outputText
+							value="#{DocumentBean.selectedDoc.documentKindt.kinddescription}" />
+
+						<h:outputText value="Απεικόνιση" style="color: #0099cc" />
+						<h:outputText
+							value="#{DocumentBean.selectedDoc.documentFormat.formatdescription}" />
+
+						<h:outputText value="Φάκελος" style="color: #0099cc" />
+						<h:outputText value="#{DocumentBean.selectedDoc.folder}" />
+
+						<h:outputText value="Ημ/νία Έκδοσης" style="color: #0099cc" />
+						<h:outputText value="#{DocumentBean.selectedDoc.publicationdate}">
+							<f:convertDateTime pattern="dd/MM/yyyy" timeZone="Europe/Athens" />
+						</h:outputText>
+
+						<h:outputText value="Εκδότης" style="color: #0099cc" />
+						<h:outputText value="#{DocumentBean.selectedDoc.publisher}" />
+
+						<h:outputText value="Ημ/νία Σκαναρίσματος" style="color: #0099cc" />
+						<h:outputText value="#{DocumentBean.selectedDoc.scandate}">
+							<f:convertDateTime pattern="dd/MM/yyyy" timeZone="Europe/Athens" />
+						</h:outputText>
+
+						<h:outputText value="Σειρά" style="color: #0099cc" />
+						<h:outputText value="#{DocumentBean.selectedDoc.series}" />
+
+
+						<h:outputText value="Γλώσσα" style="color: #0099cc" />
+						<p:dataList value="#{DocumentBean.selectedDoc.documentLanguages}"
+							var="lang" type="definition">
+       					 #{lang.languagedescription}
+    					</p:dataList>
+
+
+						<h:outputText value="Περίοδος" style="color: #0099cc" />
+						<p:dataList value="#{DocumentBean.selectedDoc.documentPeriods}"
+							var="per" type="definition">
+      					  #{per.perioddescription}" 
+   						 </p:dataList>
+
+
+						<h:outputText value="Θέμα" style="color: #0099cc" />
+						<p:dataList value="#{DocumentBean.selectedDoc.documentSubjects}"
+							var="sub" type="definition">
+       					 #{sub.subjectdescription}
+    					</p:dataList>
+
+						<h:outputText id="tipota" />
+						<p:commandButton value="Κλείσιμο"
+							oncomplete="PF('docDialog').hide()" />
+
+
+					</p:panelGrid>
+				</p:outputPanel>
+
+
+				<h:form id="tablepdf">
+					<p:dataTable id="pdf" var="pdf" value="#{DocumentBean.pdflist}">
+						<p:column headerText="Όνομα">
+							<h:outputText value="#{pdf.name}" />
+						</p:column>
+
+						<p:column>
+							<p:commandButton value="Λήψη Αρχείου" ajax="false" update=":tableFrm"
+								actionListener="#{DocumentBean.Provolipdf(pdf)}"
+								icon="fa fa-download">
+								<p:fileDownload value="#{DocumentBean.streamedContent}" />
+							</p:commandButton>
+
+							
+
+						</p:column>
+					</p:dataTable>
+				</h:form>
+			</p:dialog>
+
+
+
+
+		</ui:define>
+		<ui:define name="footer">
+			<ui:include src="footer.xhtml" />
+		</ui:define>
+	</ui:composition>
+
+</body>
+</html>

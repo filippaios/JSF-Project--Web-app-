@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<persistence version="2.1" xmlns="http://xmlns.jcp.org/xml/ns/persistence" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://xmlns.jcp.org/xml/ns/persistence http://xmlns.jcp.org/xml/ns/persistence/persistence_2_1.xsd">
+	<persistence-unit name="DisProject">
+		<class>entities.DocumentClassification</class>
+		<class>entities.DocumentFormat</class>
+		<class>entities.DocumentGeneral</class>
+		<class>entities.DocumentKindt</class>
+		<class>entities.DocumentLanguage</class>
+		<class>entities.DocumentPeriod</class>
+		<class>entities.DocumentSubject</class>
+		<class>entities.User</class>
+		<class>entities.Pdf</class>
+		<class>entities.Chart</class>
+	</persistence-unit>
+</persistence>

@@ -1,0 +1,57 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:p="http://primefaces.org/ui">
+
+<h:head>
+	<style>
+body {
+	background-image: url('backgroud.jpg');
+	background-repeat: no-repeat;
+	background-size: 100%;
+}
+
+.formdiv {
+	margin-top: 3%;
+	width: 100%;
+}
+</style>
+</h:head>
+<body>
+	<div class="formdiv" align="center">
+		<h:form style="opacity:0.7;">
+
+			<p:panel style="width:30%;">
+				<h2 style="margin-left: 2%">Ανάκτηση Κωδικού Πρόσβασης</h2>
+				<p:messages id="msg" />
+				<p:panelGrid columns="2">
+
+					<p:outputLabel value="Ονομα Χρήστη" />
+					<p:inputText value="#{changeBn.username}" required="true"
+						id="firstname" label="Ονομα Χρήστη" />
+
+				</p:panelGrid>
+				
+				<br />
+				<p:commandButton id="confirm" style="margin-left: 70%"
+					value="Άποστολή Αίτησης" icon="fa fa-floppy-o" update="msg"	
+					action="#{changeBn.Changepassmail()}">
+					
+				</p:commandButton>
+			</p:panel>
+		</h:form>
+
+	</div>
+
+	<p:linkButton id="back" style="margin-left: 35%; margin-top: 2%;opacity:0.7;"
+		icon="fa fa-reply" value="Επιστροφή στην σελίδα Σύνδεσης"
+		immediate="true" outcome="Login">
+	</p:linkButton>
+	
+
+	<ui:insert name="footer" />
+
+</body>
+</html>

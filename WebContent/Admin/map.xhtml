@@ -1,0 +1,38 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd"> 
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:ui="http://java.sun.com/jsf/facelets"
+      xmlns:f="http://java.sun.com/jsf/core"
+      	xmlns:p="http://primefaces.org/ui"
+      xmlns:h="http://java.sun.com/jsf/html"> 
+
+<h:head></h:head> 
+<body> 
+<ui:composition template="template.xhtml">
+
+
+
+		<ui:define name="header">
+			<ui:include src="header.xhtml" />
+		</ui:define>
+
+		<ui:define name="menu">
+			<ui:include src="menu.xhtml" />
+		</ui:define>
+
+		<ui:define name="data">
+		
+		<script type="text/javascript" src="https://maps.google.com/maps/api/js?sensor=true"></script>
+ 
+ 
+       <p:gmap model="#{markersView.simpleModel}"  center="37.970971, 23.732284" zoom="20" type="HYBRID" style="margin-left:10%  ;width:80%;height:470px" />
+		
+		
+		</ui:define>
+		
+		<ui:define name="footer">
+			<ui:include src="footer.xhtml" />
+		</ui:define>
+	</ui:composition>
+		
+</body> 
+</html>
